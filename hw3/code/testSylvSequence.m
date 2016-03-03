@@ -4,6 +4,8 @@ close all;
 
 load(fullfile('..','data','sylvseq.mat'));
 load(fullfile('..','data','sylvbases.mat'));
+% load(fullfile('..','data','bookSequence.mat'));
+% load(fullfile('..','data','bookBases.mat'));
 
 
 %Create matrix of zeros of size equal to number of frames x4 (2 points of
@@ -18,12 +20,14 @@ rects1 = zeros(size(frames,3),4);
 %rect =[60, 117, 146, 152]; %for car
 rect =[102, 62, 156, 108]; %for syl
 rect1 =[102, 62, 156, 108]; %for syl
+% rect =[247, 102, 285, 161]; %for book
+% rect1 =[247, 102, 285, 161]; %for book
 rects(1,:) = rect;
 rects1(1,:) = rect1;
 %Required Solution
 result_frames =[1, 100, 200, 300, 400];
 h = figure;
-%frames = frames(:,:,1:4:end);
+% frames = frames(:,:,1:4:end);
 for i = 2:size(frames,3)
     %Call LucasKanade function basis and original
     [u, v] = LucasKanadeBasis(frames(:,:,i-1), frames(:,:,i), rect, bases);

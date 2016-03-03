@@ -33,7 +33,7 @@ T = interp2(It,X,Y);
 %%Pre-compute
 %%Step 3
 %Evaluate the gradient del(T) of the Template T(X)
-[TX, TY] = gradient(T);
+[TX, TY] = imgradientxy(T, 'CentralDifference');
 %imshow(Tx);
 %imshow(Ty);
 %%Step 4 Evaluate the jacobian of W/p at (x;0)
@@ -62,7 +62,7 @@ steepest_descent = deltaT - SDQ; %Summition
 
 %%Step 6 Computer the Inverse Hessian matrix 
 %2x2 matrix
-H = steepest_descent(:,:,1)'* steepest_descent(:,:,1);
+H = steepest_descent'* steepest_descent;
 %%
 %%Iterate
 %stop when norm(del(p)) <= mini required error
@@ -74,7 +74,7 @@ while norm(deltap) > threshold
     image_warped = interp2(It1, X, Y);
 
     % Step 2 Compute the error image
-    error = image_warped - T;
+    error = T - image_warped;
     
     % Step 7 Compute equation 19 (excluding hessian inverse)
     %Reshape to (LxB) x 1 vector, steepest_descent' is 2x(LxB)
@@ -86,7 +86,7 @@ while norm(deltap) > threshold
     deltap = inv(H)*result;
     
     % Step 9 Update warp
-    p = p - deltap;
+    p = p + deltap;
 end
 
 %% Finally return the value to u and v
