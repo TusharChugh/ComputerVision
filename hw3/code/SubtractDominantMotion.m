@@ -21,7 +21,7 @@ deltaImg = abs(image2 - warpimg) ;
 deltaImg(deltaImg < 20) = 0;
 
 mask = deltaImg;
-se = strel('disk',12);
+se = strel('disk',13);
 mask = imdilate(mask, se);
 se = strel('disk',7);
 mask = imerode(mask, se);

@@ -59,9 +59,7 @@ while norm(deltap) > threshold
     %If is only for testing
  
     error =  T - image_warped;
-
-    
-    
+  
     % Step 7 Compute equation 19 (excluding hessian inverse)
     %Reshape to (LxB) x 1 vector, steepest_descent' is 2x(LxB)
     error_s = error(:); 
@@ -74,7 +72,7 @@ while norm(deltap) > threshold
     % Step 9 Update warp
     p = p + deltap;
    % M = [1 0 p(1); 0 1 p(2); 0 0 1];
-   norm(deltap)
+   norm(deltap);
 end
 
 %% Finally return the value to u and v

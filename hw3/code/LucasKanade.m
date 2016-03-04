@@ -14,7 +14,7 @@ p = [0; 0];
 %1,1  is only useful for the first iteration
 deltap = [1; 1];
 
-M = [1 0 p(1); 0 1 p(2); 0 0 1]
+M = [1 0 p(1); 0 1 p(2); 0 0 1];
 
 %Convert both Images to double and single channel
 It = im2double(It);
@@ -87,7 +87,7 @@ while norm(deltap) > threshold
     
     % Step 8 Compute deltap using equation 19
     %Remember  \ operator used in PCA for machine learning (2nd way)
-    deltap = inv(H)*result;
+    deltap = H \ result;
     
     % Step 9 Update warp
     p = p + deltap;

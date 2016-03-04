@@ -49,15 +49,9 @@ while norm(deltap) > threshold
     image_warped = interp2(It1, reshape(points(1,:),size(It1)), reshape(points(2,:),size(It1)));
     image_warped(isnan(image_warped)) = 0;
     
-   % find the common regions between warp image and It1
-%     mask = zeros(size(It,1), size(It,2));
-%     mask = mask | reshape(points(1,:),size(It1)) >=1 & reshape(points(1,:),size(It1)) <= size(It,2);
-%     mask = mask & reshape(points(2,:),size(It1)) >=1 & reshape(points(2,:),size(It1)) <= size(It,1);
-    
     % Step 2 Compute the error image
     %error = T - image_warped;
     error = image_warped-T;
- %   error = error.*mask;
     error_s = error(:); 
     
     % Step 7 Compute equation 19 (excluding hessian inverse)
