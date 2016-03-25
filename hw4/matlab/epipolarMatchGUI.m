@@ -1,6 +1,10 @@
 function [coordsIM1, coordsIM2] = epipolarMatchGUI(I1, I2, F)
 coordsIM1 = [];
 coordsIM2 = [];
+
+pts1 = [];
+pts2 = [];
+
 [sy,sx]= size(I2);
 
 figure(gcf), clf
@@ -71,6 +75,10 @@ subplot(1,2,2)
 hold on;
 
 [x2, y2] = epipolarCorrespondence(I1, I2, F, x, y)
+pts1 = [pts1; [x,y]];
+pts2 = [pts2; [x2,y2]];
+save('q2_6.mat', 'F', 'pts1', 'pts2');
+
 plot(x2, y2, 'ro', 'MarkerSize', 8, 'LineWidth', 3);
 coordsIM1 = [coordsIM1; x,y]
 coordsIM2 = [coordsIM2; x2, y2]

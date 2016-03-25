@@ -25,14 +25,12 @@ M1 = [1 0 0 0; 0 1 0 0; 0 0 1 0];
 M2s = camera2(E);
 
 P = [];
-minError = -1;
+minerror = inf;
 for i = 1:size(M2s,3)
-    [p, error] = triangulate(K1*M1, pts1, K2*M2s(:,:,i),pts2);
+    [P, error] = triangulate(M1, pts1, M2s(:,:,i),pts2);
     
-    if error < minError || minError == -1
-        minError = error;
-        M2 = M2s(:,:,i);
-        P = p;
+    if error < minerror
+        minerror
     end
 end
 

@@ -45,11 +45,15 @@ result = w .* double(patch);
 %imshow(result,[]);
 
 minD = -1;
+pts1 = [];
+pts2 = [];
 for y2t= N:0.1:size(im1,1)-N
      x2t = -1*(L(2)*y2t + L(3))/L(1);
      if ceil(x2t) - N/2 < 1 || ceil(x2t) + N/2 > size(im1,2)
          continue;
      end
+     pts1 = [pts1 x2t;
+     pts2 = y2t;
      patch2 = im2(ceil(y2t) - N/2: ceil(y2t) + N/2 -1, ceil(x2t) - N/2: ceil(x2t) + N/2 -1);  
      result2 = w .* double(patch2);
      D = sqrt(sum(sum((result-result2).^2))); 
@@ -60,5 +64,8 @@ for y2t= N:0.1:size(im1,1)-N
          y2 = ceil(y2t);
      end
 end
+
+save('q2_6.mat', 'F', 'pts1', 'pts2');
+
 end
 
