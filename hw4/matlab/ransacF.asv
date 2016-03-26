@@ -13,8 +13,8 @@ function [ F ] = ransacF( pts1, pts2, M )
 %     In your writeup, describe your algorith, how you determined which
 %     points are inliers, and any other optimizations you made
 
-nIter = 20;
-error = 1e-12;
+nIter = 50;
+error = 1e-4;
 
 pts1_c = [pts1  ones(size(pts1,1),1)];
 pts2_c = [pts2  ones(size(pts2,1),1)];
@@ -36,13 +36,10 @@ for i = 1:nIter
 %         distances = [pts2(j,:)';1]'*F{j}*[pts1(j,:)';1];
 %         distances = distances^2 / sum(pts2(j,1:2).^2 + pts1(j,1:2).^2);
 %         end
-        Fx1 = F_temp{j} * pts1_c';
-        Fx2 = F_temp{j} * pts2_c';
-        denom = Fx1(1,:).^2 + Fx1(2,:).^2 + Fx2(1,:).^2 + Fx2(2,:).^2;
-        num = abs(diag(pts1_c * F_temp{j}' * pts2_c'));
-       % distance = num./denom';
-        distance = num;
-        inliners = (distance < error);
+        Fx1 = F_temp{j}' * pts1_c;
+        Fx2 = F_temp{j}' * pts2_c;
+        distances = abs(diag(pts1_c * F_temp{j}' * pts2_c'));
+        inliners = (distances < error);
         
         if sum(maxInliners) < sum(inliners)
             disp(sum(inliners));
@@ -52,3 +49,5 @@ for i = 1:nIter
     end
 end
 
+
+%FinalF = sevenpoint(pts1(maxInliners,:),pts2(maxInliners,:),M);

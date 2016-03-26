@@ -28,10 +28,8 @@ T = [1/M 0 0; 0 1/M 0; 0 0 1];
 
 %Append 1 to the last column of points
 %Now it becomes Nx3
-pts1_c = pts1;
-pts2_c = pts2;
-pts1_c(:,3) = 1;
-pts2_c(:,3) = 1;
+pts1_c = [pts1  ones(size(pts1,1),1)];
+pts2_c = [pts2  ones(size(pts2,1),1)];
 
 %In order to scale/normalize multiple transformation matrix to points
 %Result Nx3
@@ -43,7 +41,7 @@ pts2_n = (T * pts2_c')';
 A = zeros(7, 9);
 %A is rank 7
 for i = 1:7
-    A(i,:) = reshape(pts1_n'*pts2_n, [1,9]);
+    A(i,:) = reshape(pts1_n' * pts2_n, [1,9]);
 end
 
 %Compute F
@@ -55,19 +53,20 @@ end
 %V is 9x9
 %the vectors F1 and F2 are basis vectors for the null-space of A.
 %Find 2 vectors that span null space of A, F1 and F2.
-F1 = reshape(V(:,end - 1), [3, 3])';
-F2 = reshape(V(:,end), [3, 3])';
+F1 = reshape(V(:,end - 1), [3, 3]);
+F2 = reshape(V(:,end), [3, 3]);
 
 %Find alpha such that Determinant(alpha*F1 + (1-alpha)*F2) = 0
- syms x
- eqn = x*F1 + (1 - x)*F2;
- alpha = roots(sym2poly (det(eqn)));
+syms x
+eqn = x*F1 + (1 - x)*F2;
+alpha = roots(sym2poly (det(eqn)));
+
 
 %Solution is 3rd order polynomial in alpha with at least one real solution
 
 F = cell(1);
 for i = 1:size(alpha,1)
-    f = (alpha(i) * F1 + (1 - alpha(i))*F2);
+    f = real((alpha(i) * F2 + (1 - alpha(i))*F1))';
     %Redine F
     f = refineF(f, pts1_n(:,1:2), pts2_n(:,1:2));
 

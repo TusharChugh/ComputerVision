@@ -26,8 +26,8 @@ end
 im1 = rgb2gray(im1);
 im2 = rgb2gray(im2);
 
-N = 16;
-alpha = 3;
+N = 14;
+alpha = 4;
 w = gausswin(N, alpha);
 w = w*w';
 %mesh(w);
@@ -45,15 +45,16 @@ result = w .* double(patch);
 %imshow(result,[]);
 
 minD = -1;
-for y2t= N:0.1:size(im1,1)-N
+for y2t= N:1:size(im1,1)-N
      x2t = -1*(L(2)*y2t + L(3))/L(1);
      if ceil(x2t) - N/2 < 1 || ceil(x2t) + N/2 > size(im1,2)
          continue;
      end
      patch2 = im2(ceil(y2t) - N/2: ceil(y2t) + N/2 -1, ceil(x2t) - N/2: ceil(x2t) + N/2 -1);  
      result2 = w .* double(patch2);
-     D = sqrt(sum(sum((result-result2).^2))); 
-     
+     D_all = sqrt(sum(sum((result-result2).^2))); 
+     D_point = sqrt(sum(sum(([x1, y1]-[x2t, y2t]).^2)));
+     D = D_all + 0.7*D_point;
      if D < minD || minD == -1
          minD = D;
          x2 = ceil(x2t);

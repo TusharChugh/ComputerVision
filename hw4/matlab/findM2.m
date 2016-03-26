@@ -13,7 +13,8 @@ load('..\data\some_corresp.mat');
 im1 = imread('..\data\im1.png');
 im2 = imread('..\data\im2.png');
 
-M = max(size(im1,1));
+M = max(size(im1));
+ 
 
 p1 = pts1;
 p2 = pts2;

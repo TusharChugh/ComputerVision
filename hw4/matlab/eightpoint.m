@@ -26,10 +26,8 @@ T = [1/M 0 0; 0 1/M 0; 0 0 1];
 
 %Append 1 to the last column of points
 %Now it becomes Nx3
-pts1_c = pts1;
-pts2_c = pts2;
-pts1_c(:,3) = 1;
-pts2_c(:,3) = 1;
+pts1_c = [pts1  ones(size(pts1,1),1)];
+pts2_c = [pts2  ones(size(pts2,1),1)];
 
 %In order to scale/normalize multiple transformation matrix to points
 %Result Nx3
