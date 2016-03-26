@@ -13,13 +13,15 @@ function [ F ] = ransacF( pts1, pts2, M )
 %     In your writeup, describe your algorith, how you determined which
 %     points are inliers, and any other optimizations you made
 
-nIter = 20;
-error = 1e-12;
+%Taken reference from Learning Computer Vision with OpenCV book
+
+nIter = 30;
+error_thresh = 1e-3;
 
 pts1_c = [pts1  ones(size(pts1,1),1)];
 pts2_c = [pts2  ones(size(pts2,1),1)];
 
-maxInliners = [];
+max_Count = 0;
 
 for i = 1:nIter
     i
@@ -40,15 +42,19 @@ for i = 1:nIter
         Fx2 = F_temp{j} * pts2_c';
         denom = Fx1(1,:).^2 + Fx1(2,:).^2 + Fx2(1,:).^2 + Fx2(2,:).^2;
         num = abs(diag(pts1_c * F_temp{j}' * pts2_c'));
-       % distance = num./denom';
-        distance = num;
-        inliners = (distance < error);
+        error = num./denom';
+        error = num;
+        inliners = (error < error_thresh);
         
-        if sum(maxInliners) < sum(inliners)
-            disp(sum(inliners));
-            maxInliners = inliners;
+        if max_Count < sum(inliners)
+            max_Count = sum(inliners);
+            disp(max_Count);
             F = F_temp{j};
         end
     end
 end
-
+disp(max_Count);
+disp(F);
+im1 = imread('..\data\im1.png');
+im2 = imread('..\data\im2.png');
+displayEpipolarF(im1,im2,F);

@@ -1,3 +1,7 @@
+%This file loads q2_1.mat and q2_5.mat
+%Before running this please make sure that you run eightPoint.M and findM2.m
+%as there are some other functions like ransacF which can generate q2_1.mat
+
 clear;
 clc;
 close all;
