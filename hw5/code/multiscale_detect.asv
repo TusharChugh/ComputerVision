@@ -15,15 +15,10 @@ if nargin < 3
     ndet = 1;
 end
 
-% final_x = zeros(ndet,1);
-% final_y = zeros(ndet,1);
-% final_scale = zeros(ndet,1);
-% final_score = zeros(ndet,1);
-final_x= [];
-final_y = [];
-final_scale =[];
-final_score= [];
-det_res = [];
+final_x = zeros(ndet,1);
+final_y = zeros(ndet,1);
+final_scale = zeros(ndet,1);
+final_score = zeros(ndet,1);
 
 scale = 0.7;
 im_copy = image;
@@ -41,21 +36,19 @@ while (size(template,1) < size(im_copy,1) && size(template,2) < size(im_copy,2))
     
     is_not_close = true;
     for j = 1:ndet_count
-        for k = 1:length(x)
-            dist = pdist2([final_x(j), final_y(j)], [x(k), y(k)]);
-            if dist < 128
-                is_not_close = false;
-                break;
-            end
+        dist = pdist2([final_x(j), final_y(j)], [x, y]);
+        if dist < 128
+            is_not_close = false;
+            break;
         end
     end
     
     if (is_not_close)
         ndet_count = ndet_count + 1;
-        final_x = [final_x; x];
-        final_y = [final_y; y];
-        final_scale = [final_scale; repmat(power(scale,i), [length(x), 1])];
-        final_score = [final_score; score];
+        final_x = [final_x x];
+        final_y = [final_y y];
+        final_scale = power(scale,i);
+        final_score = score;
     end
     
     i = i + 1;
@@ -69,7 +62,7 @@ for i = 1:ndet
     if i > length(final_x)
         break;
     end
-    det_res = [det_res; final_x(index(i)), final_y(index(i)), final_scale(index(i))];
+    det_res = [final_x(index(i)), final_y(index(i)), final_scale(index(i))];
 end
 
 end
