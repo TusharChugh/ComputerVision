@@ -21,7 +21,7 @@ score = zeros(ndet,1);
 for i = 1:sizez
     final_response = final_response + conv2(ohist(:,:,i), ...
         rot90(template(:,:,i),2),'same');
-     %final_response = normxcorr2(template(:,:,i),ohist(:,:,i));
+     %final_response = final_response + normxcorr2(template(:,:,i),ohist(:,:,i));
 end
 
 imagesc(final_response);

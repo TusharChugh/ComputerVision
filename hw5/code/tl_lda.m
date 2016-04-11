@@ -10,15 +10,15 @@ n_bins = 9;
 if nargin < 3
     load('template_images_pos.mat');
     load('template_images_neg.mat');
-    lambda = 1;
+    lambda = 5;
 end
 
 template = zeros(16,16,n_bins);
 
 covariance = size(template);
 
-identity = zeros(size(template));
-identity(1:1+16+16*n_bins:end)=1;
+identity = eye(size(template,1), size(template,2));
+identity = repmat(identity,[1 1 size(template,3)]);
 
 average_temp_pos = tl_pos(template_images_pos);
 

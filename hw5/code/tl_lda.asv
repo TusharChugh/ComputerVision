@@ -10,14 +10,14 @@ n_bins = 9;
 if nargin < 3
     load('template_images_pos.mat');
     load('template_images_neg.mat');
-    lambda = 1;
+    lambda = 5;
 end
 
 template = zeros(16,16,n_bins);
 
 covariance = size(template);
 
-identity = zeros(size(template));
+identity = eye(size(template,1));
 identity(1:1+16+16*n_bins:end)=1;
 
 average_temp_pos = tl_pos(template_images_pos);
@@ -36,11 +36,11 @@ for i = 1 : size(template_images_neg,2)
 end
 
 covariance = covariance./size(template_images_neg,2);
-inv
+inv_covariance = zeros(size(covariance));
 for i = 1:size(covariance,3)
-    
+    inv_covariance(:,:,i) = inv(covariance(:,:,i));
 end
-template = permute(MultiSolver(covariance,eye(3)),[1 3 2]) .* (average_temp_pos - average_temp_neg);
+template = inv_covariance .* (average_temp_pos - average_temp_neg);
 
 
 end
