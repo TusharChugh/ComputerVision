@@ -13,9 +13,9 @@ ohist = hog(I)
 final_response = zeros(sizex, sizey);
 
 %initialize x, y and score for faster perforance
-x = zeros(ndet,1);
-y = zeros(ndet,1);
-score = zeros(ndet,1);
+x = [];
+y = [];
+score = [];
 
 %For all 9 orientations
 for i = 1:sizez
@@ -29,7 +29,7 @@ imagesc(final_response);
 
 ndet_count = 0;
 
-for i = 1:index
+for i = 1:length(index)
     if ndet_count == ndet
         break;
     end
@@ -37,6 +37,7 @@ for i = 1:index
     [img_ind_y, img_ind_x] = ind2sub(size(final_response),index(i));
     img_ind_x = 8 * img_ind_x;
     img_ind_y = 8 * img_ind_y;
+
     
     is_not_close = true;
     for j = 1:ndet_count
@@ -49,9 +50,9 @@ for i = 1:index
     
     if (is_not_close)
         ndet_count = ndet_count + 1;
-        x(ndet_count) = img_ind_x;
-        y(ndet_count) = img_ind_y;
-        score(ndet_count) = response(i);
+        x = [x; img_ind_x];
+        y = [y; img_ind_y];
+        score = [score; response(i)];
     end
         
 end

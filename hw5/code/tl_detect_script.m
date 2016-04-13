@@ -7,9 +7,9 @@ clc;
 load('template_images_pos.mat');
 load('template_images_neg.mat');
 
-ndet = 5;
-Itest= im2double(rgb2gray(imread('../data/test12.jpg')));
-lambda = 5;
+ndet =  6;
+Itest= im2double(rgb2gray(imread('../newdata/test11.jpg')));
+lambda = 1;
 
 template = tl_pos(template_images_pos);
 [x,y,score] = detect(Itest,template,ndet);

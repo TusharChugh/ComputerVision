@@ -15,7 +15,6 @@ for i = 1 : size(template_images_pos,2)
     template = template + hog(template_images_pos{i});
 end
 
-
 template = template./size(template_images_pos,2);
 
 
