@@ -14,11 +14,10 @@ if nargin < 3
 end
 
 template = zeros(16,16,n_bins);
+size_covariance = size(template, 1)* size(template, 2) * size(template, 3);
+covariance = zeros(size_covariance, size_covariance);
 
-covariance = zeros(size(template));
-
-identity = eye(size(template,1), size(template,2));
-identity = repmat(identity,[1 1 size(template,3)]);
+identity = eye(size_covariance, size_covariance);
 
 average_temp_pos = tl_pos(template_images_pos);
 
@@ -31,17 +30,15 @@ end
 average_temp_neg = average_temp_neg./size(template_images_neg,2);
 
 for i = 1 : size(template_images_neg,2)
-    temp = hog(template_images_neg{i}) - average_temp_neg;
-    covariance = covariance + temp .*permute(temp, [2 1 3]);
+    neg_hog = hog(template_images_neg{i});
+    temp = neg_hog(:) - average_temp_neg(:);
+    covariance = covariance + temp * temp';
 end
 
-covariance = covariance./size(template_images_neg,2);
-covariance = covariance + lambda.*identity;
-inv_covariance = zeros(size(covariance));
-for i = 1:size(covariance,3)
-    inv_covariance(:,:,i) = inv(covariance(:,:,i));
-end
-template = inv_covariance .* (average_temp_pos - average_temp_neg);
+covariance = covariance/size(template_images_neg,2);
+covariance = covariance + lambda*identity;
 
+temp = (average_temp_pos - average_temp_neg);
 
+template = reshape(inv(covariance)*temp(:), size(temp));    
 end
