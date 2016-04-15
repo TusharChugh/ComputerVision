@@ -4,7 +4,7 @@ function [mag,ori] = mygradient(I)
 %
 
 if nargin < 1
-    I = imread('..\data\test1.jpg');
+    I = imread('..\data\test8.jpg');
     I = rgb2gray(I);
     I = im2double(I);
 end
@@ -22,11 +22,12 @@ mag = sqrt(im_hfilter.*im_hfilter + im_vfilter.*im_vfilter);
 
 %Calculate orientation
 ori = atan2d(im_vfilter,im_hfilter);
+%visualize the image
+%   imagesc(mag);
+%   imagesc(ori);
 end
 
-%visualize the image
-% imagesc(mag);
-% imagesc(ori);
+
 
 %imshow(im_hfilter);
 %imshow(im_vfilter);

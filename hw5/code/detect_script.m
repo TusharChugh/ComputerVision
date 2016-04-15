@@ -2,7 +2,7 @@ close all
 clc
 clear 
 % load a training example image
-Itrain = im2double(rgb2gray(imread('../data/test2.jpg')));
+Itrain = im2double(rgb2gray(imread('../data/test20.jpeg')));
 
 %have the user click on some training examples.  
 % If there is more than 1 example in the training image (e.g. faces), you could set nclicks higher here and average together
@@ -37,11 +37,11 @@ template = template/nclick;
 % load a test image
 %
 %%
-Itest= im2double(rgb2gray(imread('../data/test4.jpg')));
+Itest= im2double(rgb2gray(imread('../data/test27.jpg')));
 
 
 % find top 5 detections in Itest
-ndet = 1;
+ndet = 3;
 [x,y,score] = detect(Itest,template,ndet);
 
 %display top ndet detections

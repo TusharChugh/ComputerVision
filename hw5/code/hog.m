@@ -67,14 +67,6 @@ ohist = bsxfun(@rdivide, ohist,sum(ohist,3));
 k = find(isnan(ohist))';
 ohist(k) = 0;
 
-% for i=1:n_bins
-%     max_ohist = sum(ohist,3);
-%     ohist(:,:,i) = ohist(:,:,i)./max_ohist;
-%     k = find(isnan(ohist))';
-%     ohist(k) = 0;
-%     %imagesc(ohist(:,:,i))
-% end
-
 V = hogdraw( ohist );
 colormap jet;
 imagesc(V);
